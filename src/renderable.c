@@ -34,7 +34,3 @@ Color renderable_get_color_at(Renderable renderable, Vector position) {
             return (Color) {0,0,0};
     }
 }
-
-Color color_make(int r, int g, int b) {
-    return (Color) {r, g, b};
-}

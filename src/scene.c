@@ -1,5 +1,7 @@
 #include "scene.h"
 
+
+
 Scene scene_make(){
 	Scene scene;
 

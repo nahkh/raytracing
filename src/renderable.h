@@ -3,6 +3,7 @@
 
 #include "vector.h"
 #include "ray.h"
+#include "color.h"
 
 enum RenderableType {
     RENDERABLE_PLANE,
@@ -32,15 +33,7 @@ enum TextureType {
 
 typedef enum TextureType TextureType;
 
-struct Color {
-    int r;
-    int g;
-    int b;
-};
-
-typedef struct Color Color;
-
-typedef struct Color SolidTexture;
+typedef Color SolidTexture;
 
 struct CheckeredTexture {
     double scale;
@@ -71,6 +64,5 @@ void renderable_set_solid_color(Renderable*, int, int, int);
 void renderable_set_checkered_scale(Renderable*, double);
 
 Color renderable_get_color_at(Renderable, Vector);
-Color color_make(int, int, int);
 
 #endif

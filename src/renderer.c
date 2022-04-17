@@ -28,5 +28,4 @@ Color render_color(Scene* scene, Ray ray) {
     } else {
         return color_make(0, 0, 40);
     }
-
 }
