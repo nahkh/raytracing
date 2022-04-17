@@ -20,7 +20,7 @@ Collision calculate_collision_plane(RenderablePlane plane, Ray ray) {
         return COLLISION_MISS;
     } 
     t = (plane.distance_to_origin - vector_dot_product(ray.pos, plane.normal)) / direction_normal;
-    if (t < 0.0) {
+    if (t < MIN_COLLISION_DISTANCE) {
         return COLLISION_MISS;
     }
 
@@ -43,11 +43,11 @@ Collision calculate_collision_sphere(RenderableSphere sphere, Ray ray) {
     dt = sqrt(sphere.radius * sphere.radius - d * d);
     t1 = t - dt;
     t2 = t + dt;
-    if (t1 > 0.0) {
+    if (t1 > MIN_COLLISION_DISTANCE) {
         hit_position = calculate_hit_from_ray(ray, t1);
         return collision_make(hit_position, vector_normalize(vector_subtract(hit_position, sphere.position)), t1);
     }
-    if (t2 > 0.0) {
+    if (t2 > MIN_COLLISION_DISTANCE) {
         hit_position = calculate_hit_from_ray(ray, t2);
         return collision_make(hit_position, vector_normalize(vector_subtract(hit_position, sphere.position)), t2);
     }

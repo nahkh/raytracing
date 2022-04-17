@@ -18,8 +18,7 @@ void scene_render(Scene* scene, SDL_Renderer* renderer, Camera camera) {
 
 	for (x = 0; x < camera.width; ++x) {
 		for (y = 0; y < camera.height; ++y) {
-			
-			color = render_color(scene, camera_get_ray(camera, x, y));
+			color = render_color(scene, camera_get_ray(camera, x, y), 5);
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
 			SDL_RenderDrawPoint(renderer, x, y);
 		}

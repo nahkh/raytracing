@@ -48,6 +48,7 @@ struct Renderable {
         RenderableSphere as_sphere;
     };
     TextureType texture_type;
+    double reflectivity;
     union {
         SolidTexture as_solid_texture;
         CheckeredTexture as_checkered_texture;
@@ -62,6 +63,7 @@ Renderable renderable_make_sphere(Vector, double);
 
 void renderable_set_solid_color(Renderable*, int, int, int);
 void renderable_set_checkered_scale(Renderable*, double);
+void renderable_set_reflectivity(Renderable*, double);
 
 Color renderable_get_color_at(Renderable, Vector);
 

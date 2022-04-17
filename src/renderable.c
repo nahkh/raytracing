@@ -2,11 +2,11 @@
 
 
 Renderable renderable_make_plane(Vector normal, double distance) {
-    return (Renderable) {RENDERABLE_PLANE, {{normal, distance}}, TEXTURE_SOLID, {{0,0,0}}};
+    return (Renderable) {RENDERABLE_PLANE, {{normal, distance}}, TEXTURE_SOLID, 0, {{0,0,0}}};
 }
 
 Renderable renderable_make_sphere(Vector position, double radius) {
-    return (Renderable) {RENDERABLE_SPHERE, {{position, radius}}, TEXTURE_SOLID, {{0,0,0}}};
+    return (Renderable) {RENDERABLE_SPHERE, {{position, radius}}, TEXTURE_SOLID, 0, {{0,0,0}}};
 }
 
 
@@ -20,6 +20,10 @@ void renderable_set_solid_color(Renderable* renderable, int r, int g, int b) {
 void renderable_set_checkered_scale(Renderable* renderable, double scale) {
     renderable->texture_type = TEXTURE_CHECKERED;
     renderable->as_checkered_texture.scale = scale;
+}
+
+void renderable_set_reflectivity(Renderable* renderable, double reflectivity) {
+    renderable->reflectivity = reflectivity;
 }
 
 Color renderable_get_color_at(Renderable renderable, Vector position) {

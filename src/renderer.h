@@ -5,7 +5,7 @@
 #include "scene.h"
 #include "color.h"
 
-Color render_color(Scene* scene, Ray ray);
+Color render_color(Scene* scene, Ray ray, int reflections);
 
 
 #endif

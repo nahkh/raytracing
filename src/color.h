@@ -12,6 +12,10 @@ typedef struct Color Color;
 
 Color color_make(int, int, int);
 
+Color color_add(const Color, const Color);
+
+Color color_multiply(const Color, const double);
+
 Color color_blend(const Color, const Color, double alpha);
 
 #endif

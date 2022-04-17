@@ -5,6 +5,8 @@
 #include "ray.h"
 #include "renderable.h"
 
+#define MIN_COLLISION_DISTANCE 0.5
+
 struct Collision {
     int hit;
     double distance;
