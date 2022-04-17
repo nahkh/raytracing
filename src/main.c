@@ -5,65 +5,28 @@
 #include "camera.h"
 #include "renderable.h"
 #include "collision.h"
+#include "scene.h"
+#include "renderer.h"
 
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 1000
+#define HEIGHT 800
 
-#define MAX_SCENE_SIZE 100
-
-struct Scene {
-	Renderable renderables[MAX_SCENE_SIZE];
-	int renderable_count;
-};
-
-typedef struct Scene Scene;
-
-Scene scene_make() {
-	Scene scene;
-	
-	scene.renderables[0] = renderable_make_plane(vector_make(0, 1, 0), -10);
-	renderable_set_checkered_scale(&(scene.renderables[0]), 20.0);
-	scene.renderables[1] = renderable_make_sphere(vector_make(0, 0, 100), 50);
-	renderable_set_solid_color(&(scene.renderables[1]), 255, 255, 255);
-
-	scene.renderable_count = 2;
-
-	return scene;
-}
 
 void scene_render(Scene* scene, SDL_Renderer* renderer, Camera camera) {
-	Renderable best_hit;
-	Collision best_collision;
-	Collision collision;
-	Ray ray;
-	unsigned int x, y, i;
+	Color color;
+	unsigned int x, y;
 
 	for (x = 0; x < camera.width; ++x) {
 		for (y = 0; y < camera.height; ++y) {
-			best_collision = COLLISION_MISS;
-			ray = camera_get_ray(camera, x, y);
-
-			for (i = 0; i < scene->renderable_count; ++i) {
-				collision = calculate_collision(scene->renderables[i], ray);
-				if (collision.hit && (!best_collision.hit || collision.distance < best_collision.distance)) {
-					best_collision = collision;
-					best_hit = scene->renderables[i];
-				}
-			}
-
-			if (best_collision.hit) {
-				Color color = renderable_get_color_at(best_hit, best_collision.pos);
-				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-			} else {
-				SDL_SetRenderDrawColor(renderer, 0, 0, 40, 255);
-			}
-
+			
+			color = render_color(scene, camera_get_ray(camera, x, y));
+			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
 	}
 }
 
-int main(int argv, char** args)
+int main()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 

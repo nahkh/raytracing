@@ -2,11 +2,11 @@
 
 
 Renderable renderable_make_plane(Vector normal, double distance) {
-    return (Renderable) {RENDERABLE_PLANE, {{normal, distance}}};
+    return (Renderable) {RENDERABLE_PLANE, {{normal, distance}}, TEXTURE_SOLID, {{0,0,0}}};
 }
 
 Renderable renderable_make_sphere(Vector position, double radius) {
-    return (Renderable) {RENDERABLE_SPHERE, {{position, radius}}};
+    return (Renderable) {RENDERABLE_SPHERE, {{position, radius}}, TEXTURE_SOLID, {{0,0,0}}};
 }
 
 
@@ -33,4 +33,8 @@ Color renderable_get_color_at(Renderable renderable, Vector position) {
         default:
             return (Color) {0,0,0};
     }
+}
+
+Color color_make(int r, int g, int b) {
+    return (Color) {r, g, b};
 }

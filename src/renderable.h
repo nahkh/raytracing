@@ -40,7 +40,7 @@ struct Color {
 
 typedef struct Color Color;
 
-typedef Color SolidTexture;
+typedef struct Color SolidTexture;
 
 struct CheckeredTexture {
     double scale;
@@ -71,5 +71,6 @@ void renderable_set_solid_color(Renderable*, int, int, int);
 void renderable_set_checkered_scale(Renderable*, double);
 
 Color renderable_get_color_at(Renderable, Vector);
+Color color_make(int, int, int);
 
 #endif

@@ -9,6 +9,7 @@ struct Collision {
     int hit;
     double distance;
     Vector pos;
+    Vector normal;
 };
 
 typedef struct Collision Collision;
