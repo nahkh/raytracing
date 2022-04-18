@@ -1,4 +1,5 @@
 #include "renderable.h"
+#include <math.h>
 
 
 Renderable renderable_make_plane(Vector normal, double distance) {
@@ -12,9 +13,7 @@ Renderable renderable_make_sphere(Vector position, double radius) {
 
 void renderable_set_solid_color(Renderable* renderable, int r, int g, int b) {
     renderable->texture_type = TEXTURE_SOLID;
-    renderable->as_solid_texture.r = r;
-    renderable->as_solid_texture.g = g;
-    renderable->as_solid_texture.b = b;
+    renderable->as_solid_texture = color_make_from_rgb(r, g, b);
 }
 
 void renderable_set_checkered_scale(Renderable* renderable, double scale) {
@@ -31,9 +30,9 @@ Color renderable_get_color_at(Renderable renderable, Vector position) {
         case TEXTURE_SOLID:
             return renderable.as_solid_texture;
         case TEXTURE_CHECKERED:
-            return ((int) (position.x / renderable.as_checkered_texture.scale) +
-                   (int) (position.y / renderable.as_checkered_texture.scale) +
-                   (int) (position.z / renderable.as_checkered_texture.scale)) % 2 ? (Color) {0,0,0} : (Color) {255, 255, 255};
+            return ((int) floor(position.x / renderable.as_checkered_texture.scale) +
+                   (int) floor(position.y / renderable.as_checkered_texture.scale) +
+                   (int) floor(position.z / renderable.as_checkered_texture.scale)) % 2 ? (Color) {0,0,0} : (Color) {1, 1, 1};
         default:
             return (Color) {0,0,0};
     }

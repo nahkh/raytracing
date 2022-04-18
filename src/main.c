@@ -13,12 +13,12 @@
 
 
 void scene_render(Scene* scene, SDL_Renderer* renderer, Camera* camera) {
-	Color color;
+	Color255 color;
 	unsigned int x, y;
 
 	for (x = 0; x < camera->width; ++x) {
 		for (y = 0; y < camera->height; ++y) {
-			color = render_color(scene, camera_get_ray(camera, x, y), 5);
+			color = color_to_color255(render_color(scene, camera_get_ray(camera, x, y), 5));
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
@@ -47,7 +47,7 @@ int main()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
-	SDL_Window *window = SDL_CreateWindow("Hello SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
+	SDL_Window *window = SDL_CreateWindow("Raytracing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 	Camera camera = camera_make(WIDTH, HEIGHT, M_PI_4);
 	Scene scene = scene_make();
@@ -91,6 +91,8 @@ int main()
 
 		SDL_RenderPresent(renderer);
 	}
+
+	camera_destroy(&camera);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);

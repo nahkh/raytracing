@@ -22,6 +22,10 @@ Camera camera_make(unsigned int w, unsigned int h, double fov) {
     return camera;
 }
 
+void camera_destroy(Camera* camera) {
+    free(camera->rays);
+}
+
 Ray camera_get_ray(Camera* camera, unsigned int x, unsigned int y) {
     return ray_make(camera->position, matrix_multiply_vector(camera->orientation, camera->rays[x + camera->width * y]));
 }
