@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include <math.h>
 
 const Matrix MATRIX_IDENTITY = {1.0, 0, 0, 0, 1.0, 0, 0, 0, 1.0};
 
@@ -70,4 +71,27 @@ Matrix matrix_inverse(Matrix a) {
 
 double matrix_determinant(Matrix m) {
     return m.a1 * (m.b2 * m.c3 - m.b3 * m.c2) + m.a2 * (m.b3 * m.c1 - m.b1 * m.c3) + m.a3 * (m.b1 * m.c2 - m.b2 * m.c1);
+}
+
+Matrix matrix_make(double a1, double a2, double a3, double b1, double b2, double b3, double c1, double c2, double c3) {
+    return (Matrix) {a1, a2, a3, b1, b2, b3, c1, c2, c3};
+}
+
+
+Matrix matrix_rotate_x(double radians){
+    double cosine = cos(radians);
+    double sine = sin(radians);
+    return matrix_make(1, 0, 0, 0, cosine, -sine, 0, sine, cosine);
+}
+
+Matrix matrix_rotate_y(double radians) {
+    double cosine = cos(radians);
+    double sine = sin(radians);
+    return matrix_make(cosine, 0, sine, 0, 1, 0, -sine, 0, cosine);
+}
+
+Matrix matrix_rotate_z(double radians) {
+    double cosine = cos(radians);
+    double sine = sin(radians);
+    return matrix_make(cosine, -sine, 0, sine, cosine, 0, 0, 0, 1);
 }

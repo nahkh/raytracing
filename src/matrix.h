@@ -28,4 +28,9 @@ Vector matrix_row_1(Matrix);
 Vector matrix_row_2(Matrix);
 Vector matrix_row_3(Matrix);
 
+Matrix matrix_make(double, double, double, double, double, double, double, double, double);
+Matrix matrix_rotate_x(double);
+Matrix matrix_rotate_y(double);
+Matrix matrix_rotate_z(double);
+
 #endif
