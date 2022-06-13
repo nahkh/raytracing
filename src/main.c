@@ -49,7 +49,7 @@ int main()
 
 	SDL_Window *window = SDL_CreateWindow("Raytracing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
-	Camera camera = camera_make(WIDTH, HEIGHT, M_PI_4);
+	Camera* camera = camera_make(WIDTH, HEIGHT, M_PI_4);
 	Scene scene = scene_make();
 
 	int isRunning = 1;
@@ -72,27 +72,27 @@ int main()
 				}
 
 				if (event.key.keysym.sym == SDLK_UP) {
-					move_forward(&camera);
+					move_forward(camera);
 				}
 				if (event.key.keysym.sym == SDLK_DOWN) {
-					move_backward(&camera);
+					move_backward(camera);
 				}
 				if (event.key.keysym.sym == SDLK_LEFT) {
-					rotate_left(&camera);
+					rotate_left(camera);
 				}
 				if (event.key.keysym.sym == SDLK_RIGHT) {
-					rotate_right(&camera);
+					rotate_right(camera);
 				}
 			}
 		}
 
 		SDL_RenderClear(renderer);
-		scene_render(&scene, renderer, &camera);
+		scene_render(&scene, renderer, camera);
 
 		SDL_RenderPresent(renderer);
 	}
 
-	camera_destroy(&camera);
+	camera_destroy(camera);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);

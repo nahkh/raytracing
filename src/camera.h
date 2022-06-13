@@ -15,7 +15,7 @@ struct Camera {
 
 typedef struct Camera Camera;
 
-Camera camera_make(unsigned int, unsigned int, double);
+Camera* camera_make(unsigned int, unsigned int, double);
 void camera_destroy(Camera*);
 
 Ray camera_get_ray(Camera*, unsigned int, unsigned int);
