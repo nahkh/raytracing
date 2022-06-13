@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "matrix.h": "c"
+        "*.h": "c",
+        "*.c": "c"
     },
     "makefile.launchConfigurations": [
         {
@@ -8,5 +9,6 @@
             "binaryPath": "/home/jvalli/Programming/c/raytracing/build/raytracing",
             "binaryArgs": []
         }
-    ]
+    ],
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-x64"
 }

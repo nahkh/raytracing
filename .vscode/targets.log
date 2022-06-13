@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -6,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jun 13 12:40:52 2022
+# Make data base, printed on Mon Jun 13 12:45:15 2022
 
 # Variables
 
@@ -219,9 +221,9 @@ GDMSESSION = pop
 
 # Directories
 
-# . (device 64769, inode 15207452): 10 files, no impossibilities.
+# . (device 64769, inode 15207452): 9 files, no impossibilities.
 
-# 10 files, no impossibilities in 1 directories.
+# 9 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -246,7 +248,7 @@ debug: create-build-dir
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-13 12:33:22.208897624
+#  Last modified 2022-06-13 12:43:43.003230672
 #  File has been updated.
 #  Successfully updated.
 
@@ -255,7 +257,7 @@ clean:
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 21):
-	rm build/*
+	rm -r build
 
 # Not a target:
 .DEFAULT:
@@ -298,17 +300,15 @@ test: create-build-dir
 
 # No 'vpath' search paths.
 
- 
-make: *** No rule to make target 'all'.  Stop.
-
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 21 / storage = 160 B / avg = 7 B
-# current buf: size = 8162 B / used = 160 B / count = 21 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 20 / storage = 154 B / avg = 7 B
+# current buf: size = 8162 B / used = 154 B / count = 20 / avg = 7 B
 
-# strcache performance: lookups = 35 / hit rate = 40%
+# strcache performance: lookups = 34 / hit rate = 41%
 # hash-table stats:
-# Load=21/8192=0%, Rehash=0, Collisions=0/35=0%
-# Finished Make data base on Mon Jun 13 12:40:52 2022
+ 
+# Load=20/8192=0%, Rehash=0, Collisions=0/34=0%
+# Finished Make data base on Mon Jun 13 12:45:15 2022
 
  
