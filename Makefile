@@ -7,6 +7,11 @@ main: create-build-dir
 debug: create-build-dir
 	${CC} -g -o build/raytracing-debug src/*.c ${CFLAGS} -lm -lSDL2main -lSDL2 -I.
 
+analyze: create-build-dir
+	${CC} -pg -o build/raytracing-analyze src/*.c ${CFLAGS} -lm -lSDL2main -lSDL2 -I.
+	build/raytracing-analyze
+	gprof build/raytracing-analyze gmon.out > analysis.txt
+
 test: create-build-dir
 	${CC} -o build/linalg_tests src/vector.c src/matrix.c tests/linalg_tests.c -lm -lcheck -lsubunit -I.
 	build/linalg_tests
@@ -19,3 +24,5 @@ run: main
 
 clean:
 	rm -r build
+	rm gmon.out
+	rm analysis.txt
