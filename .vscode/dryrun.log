@@ -1,0 +1,6 @@
+make main --dry-run --keep-going --print-directory
+make: Entering directory '/home/jvalli/Programming/c/raytracing'
+mkdir -p build
+gcc -o build/raytracing src/*.c -Wall -Wextra -O3 -lm -lSDL2main -lSDL2 -I.
+make: Leaving directory '/home/jvalli/Programming/c/raytracing'
+ 
