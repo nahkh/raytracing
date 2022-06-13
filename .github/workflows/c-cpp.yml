@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: configure
-      run: ./configure
+    - name: install deps
+      run: sudo apt-get install libsdl2-dev
     - name: make
       run: make
     - name: make test
