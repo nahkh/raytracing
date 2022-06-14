@@ -1,4 +1,5 @@
 #include <math.h>
+#include <pthread.h>
 #include <SDL2/SDL.h>
 #include "vector.h"
 #include "ray.h"
@@ -11,15 +12,51 @@
 #define WIDTH 600
 #define HEIGHT 400
 
+#define THREAD_COUNT 40
 
-void scene_render(Scene* scene, SDL_Renderer* renderer, Camera* camera) {
-	Color255 color;
+struct RenderingThreadInput {
+	unsigned int thread_count;
+	unsigned int thread_num;
+	Scene* scene;
+	Camera* camera;
+	Color255* pixels;
+};
+
+typedef struct RenderingThreadInput RenderingThreadInput;
+
+void* scene_thread_calculate_colors(void* params) {
+	unsigned int x, y;
+	RenderingThreadInput* input = (RenderingThreadInput*) params;
+
+	for (x = input->thread_num; x < input->camera->width; x+=input->thread_count) {
+		for (y = 0; y < input->camera->height; ++y) {
+			input->pixels[x + y * input->camera->width] = color_to_color255(render_color(input->scene, camera_get_ray(input->camera, x, y), 5));
+		}
+	}
+
+	return params;
+}
+
+void scene_calculate_colors(Scene* scene, Camera* camera, Color255* pixels) {
+	unsigned int i;
+	pthread_t threads[THREAD_COUNT];
+	RenderingThreadInput inputs[THREAD_COUNT];
+
+    for (i = 0; i < THREAD_COUNT; ++i) {
+		inputs[i] = (RenderingThreadInput) {THREAD_COUNT, i, scene, camera, pixels};
+        pthread_create(&threads[i], NULL, scene_thread_calculate_colors, (void*)&(inputs[i]));
+	}
+    for (i = 0; i < THREAD_COUNT; ++i)
+        pthread_join(threads[i], NULL);
+	
+}
+
+void scene_render(SDL_Renderer* renderer, Camera* camera, Color255* pixels) {
 	unsigned int x, y;
 
 	for (x = 0; x < camera->width; ++x) {
 		for (y = 0; y < camera->height; ++y) {
-			color = color_to_color255(render_color(scene, camera_get_ray(camera, x, y), 5));
-			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+			SDL_SetRenderDrawColor(renderer, pixels[x + y * camera->width].r, pixels[x + y * camera->width].g, pixels[x + y * camera->width].b, 255);
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
 	}
@@ -55,6 +92,7 @@ int main()
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 	Camera* camera = camera_make(WIDTH, HEIGHT, M_PI_4);
 	Scene scene = scene_make();
+	Color255* pixel_buffer = (Color255*) malloc(sizeof(Color255) * camera->height * camera->width);
 
 	int isRunning = 1;
 	SDL_Event event;
@@ -91,7 +129,8 @@ int main()
 		}
 
 		SDL_RenderClear(renderer);
-		scene_render(&scene, renderer, camera);
+		scene_calculate_colors(&scene, camera, pixel_buffer);
+		scene_render(renderer, camera, pixel_buffer);
 
 		SDL_RenderPresent(renderer);
 	}
