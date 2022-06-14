@@ -1,12 +1,16 @@
 #include "renderer.h"
 #include "collision.h"
 
-Vector vector_reflect(Vector direction, Vector normal) {
-    return vector_add(direction, vector_scale(normal, vector_dot_product(direction, normal) * -2.0));
+Vector vector_reflect(Vector* direction, Vector* normal) {
+    Vector temp = vector_scale(normal, vector_dot_product(direction, normal) * -2.0);
+
+    return vector_add(direction, &temp);
 }
 
-Ray calculate_reflection(Vector collision_point, Vector original_dir, Vector normal) {
-    return ray_make(collision_point, vector_reflect(original_dir, normal));
+Ray calculate_reflection(Vector* collision_point, Vector* original_dir, Vector* normal) {
+    Vector temp = vector_reflect(original_dir, normal);
+
+    return ray_make(collision_point, &temp);
 }
 
 int calculate_hit(Scene *scene, Ray ray) {
@@ -27,8 +31,9 @@ Color render_color(Scene* scene, Ray ray, int reflections) {
 	Collision best_collision;
 	Collision collision;
 	unsigned int i;
-    Ray light_direction;
+    Ray ray_to_light;
     double alpha;
+    Vector direction_to_light;
 
     best_collision = COLLISION_MISS;
    
@@ -46,9 +51,10 @@ Color render_color(Scene* scene, Ray ray, int reflections) {
 
         for (i = 0; i < scene->light_source_count; ++i) {
             if (scene->light_sources[i].has_direction) {
-                light_direction = ray_make(best_collision.pos, get_direction_to(scene->light_sources[i], best_collision.pos));
-                if (!calculate_hit(scene, light_direction)) {
-                    alpha = vector_dot_product(light_direction.dir, best_collision.normal);
+                direction_to_light = get_direction_to(scene->light_sources[i], best_collision.pos);
+                ray_to_light = ray_make(&(best_collision.pos), &direction_to_light);
+                if (!calculate_hit(scene, ray_to_light)) {
+                    alpha = vector_dot_product(&(ray_to_light.dir), &(best_collision.normal));
                     if (alpha > 0.0) {
                         light_color = color_add(light_color, color_multiply_scalar(scene->light_sources[i].color, alpha));
                     }
@@ -60,7 +66,7 @@ Color render_color(Scene* scene, Ray ray, int reflections) {
         }
         color = color_multiply_color(color, light_color);
         if (best_hit.reflectivity > 0.0 && reflections > 0) {
-            Ray reflected_ray = calculate_reflection(best_collision.pos, ray.dir, best_collision.normal);
+            Ray reflected_ray = calculate_reflection(&(best_collision.pos), &(ray.dir), &(best_collision.normal));
             Color reflected_color = render_color(scene, reflected_ray, reflections - 1);
             color = color_blend(color, reflected_color, best_hit.reflectivity);
         }

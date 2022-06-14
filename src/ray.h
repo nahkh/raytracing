@@ -11,6 +11,6 @@ struct Ray {
 typedef struct Ray Ray;
 
 
-Ray ray_make(Vector pos, Vector dir);
+Ray ray_make(Vector* pos, Vector* dir);
 
 #endif

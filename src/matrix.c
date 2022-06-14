@@ -34,16 +34,16 @@ Matrix matrix_multiply_matrix(Matrix m, Matrix n) {
     Vector c1 = matrix_column_1(n);
     Vector c2 = matrix_column_2(n);
     Vector c3 = matrix_column_3(n);
-    return (Matrix) {   vector_dot_product(r1, c1), vector_dot_product(r1, c2), vector_dot_product(r1, c3), 
-                        vector_dot_product(r2, c1), vector_dot_product(r2, c2), vector_dot_product(r2, c3), 
-                        vector_dot_product(r3, c1), vector_dot_product(r3, c2), vector_dot_product(r3, c3)};
+    return (Matrix) {   vector_dot_product(&r1, &c1), vector_dot_product(&r1, &c2), vector_dot_product(&r1, &c3), 
+                        vector_dot_product(&r2, &c1), vector_dot_product(&r2, &c2), vector_dot_product(&r2, &c3), 
+                        vector_dot_product(&r3, &c1), vector_dot_product(&r3, &c2), vector_dot_product(&r3, &c3)};
 }
 
 Vector matrix_multiply_vector(Matrix m, Vector v) {
     Vector r1 = matrix_row_1(m);
     Vector r2 = matrix_row_2(m);
     Vector r3 = matrix_row_3(m);
-    return (Vector) {vector_dot_product(v, r1), vector_dot_product(v, r2), vector_dot_product(v, r3)};
+    return (Vector) {vector_dot_product(&v, &r1), vector_dot_product(&v, &r2), vector_dot_product(&v, &r3)};
 }
 
 Matrix matrix_multiply_scalar(Matrix m, double a) {
