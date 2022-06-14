@@ -1,0 +1,330 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ns/call  ns/call  name    
+ 20.60      0.41     0.41 44211933     9.27    18.94  calculate_collision_sphere
+ 15.58      0.72     0.31 120885101     2.56     2.56  vector_dot_product
+ 15.08      1.02     0.30 66956646     4.48    18.88  calculate_collision
+ 14.07      1.30     0.28  5280000    53.03   345.13  render_color
+  8.54      1.47     0.17 16721728    10.17    10.17  vector_normalize
+  5.03      1.57     0.10 104905594     0.95     0.95  vector_subtract
+  4.52      1.66     0.09 66158898     1.36     1.36  vector_scale
+  4.02      1.74     0.08  5280000    15.15    31.22  camera_get_ray
+  2.51      1.79     0.05 44211933     1.13     1.13  vector_length
+  2.51      1.84     0.05 13947946     3.58     3.58  color_make
+  1.51      1.87     0.03 66158898     0.45     0.45  vector_add
+  1.51      1.90     0.03 16080176     1.87     1.87  vector_make
+  1.51      1.93     0.03  8667946     3.46     3.46  color_blend
+  1.01      1.95     0.02 22744713     0.88     0.88  ray_make
+  0.50      1.96     0.01 15471284     0.65     0.65  color_add
+  0.50      1.97     0.01  8796767     1.14     1.14  color_multiply_color
+  0.50      1.98     0.01  8796767     1.14    12.26  get_direction_to
+  0.50      1.99     0.01  5280000     1.89    15.18  matrix_multiply_vector
+  0.00      1.99     0.00  8796767     0.00     0.00  renderable_get_color_at
+  0.00      1.99     0.00  6674517     0.00     0.00  color_multiply_scalar
+  0.00      1.99     0.00  5280000     0.00     0.00  color_to_color255
+  0.00      1.99     0.00        4     0.00     0.00  color_make_from_rgb
+  0.00      1.99     0.00        3     0.00     0.00  renderable_set_reflectivity
+  0.00      1.99     0.00        2     0.00     0.00  renderable_make_sphere
+  0.00      1.99     0.00        2     0.00     0.00  renderable_set_solid_color
+  0.00      1.99     0.00        1     0.00     0.00  light_source_make_global
+  0.00      1.99     0.00        1     0.00     0.00  light_source_make_point
+  0.00      1.99     0.00        1     0.00     0.00  renderable_make_plane
+  0.00      1.99     0.00        1     0.00     0.00  renderable_set_checkered_scale
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2021 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.50% of 1.99 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     99.9    0.00    1.99                 scene_render [1]
+                0.28    1.54 5280000/5280000     render_color [2]
+                0.08    0.08 5280000/5280000     camera_get_ray [7]
+                0.00    0.00 5280000/5280000     color_to_color255 [24]
+-----------------------------------------------
+                             8667946             render_color [2]
+                0.28    1.54 5280000/5280000     scene_render [1]
+[2]     91.6    0.28    1.54 5280000+8667946 render_color [2]
+                0.30    0.96 66956646/66956646     calculate_collision [3]
+                0.01    0.10 8796767/8796767     get_direction_to [8]
+                0.05    0.00 13947946/13947946     color_make [13]
+                0.04    0.00 15356771/120885101     vector_dot_product [5]
+                0.03    0.00 8667946/8667946     color_blend [16]
+                0.02    0.00 17464713/22744713     ray_make [17]
+                0.01    0.00 8667946/66158898     vector_scale [10]
+                0.01    0.00 15471284/15471284     color_add [18]
+                0.01    0.00 8796767/8796767     color_multiply_color [19]
+                0.00    0.00 8667946/66158898     vector_add [14]
+                0.00    0.00 8796767/8796767     renderable_get_color_at [22]
+                0.00    0.00 6674517/6674517     color_multiply_scalar [23]
+                             8667946             render_color [2]
+-----------------------------------------------
+                0.30    0.96 66956646/66956646     render_color [2]
+[3]     63.5    0.30    0.96 66956646         calculate_collision [3]
+                0.41    0.43 44211933/44211933     calculate_collision_sphere [4]
+                0.12    0.00 45476226/120885101     vector_dot_product [5]
+                0.01    0.00 5594058/66158898     vector_scale [10]
+                0.00    0.00 5594058/66158898     vector_add [14]
+-----------------------------------------------
+                0.41    0.43 44211933/44211933     calculate_collision [3]
+[4]     42.1    0.41    0.43 44211933         calculate_collision_sphere [4]
+                0.11    0.00 44211933/120885101     vector_dot_product [5]
+                0.09    0.00 96108827/104905594     vector_subtract [9]
+                0.08    0.00 7684961/16721728     vector_normalize [6]
+                0.07    0.00 51896894/66158898     vector_scale [10]
+                0.05    0.00 44211933/44211933     vector_length [12]
+                0.02    0.00 51896894/66158898     vector_add [14]
+-----------------------------------------------
+                0.04    0.00 15356771/120885101     render_color [2]
+                0.04    0.00 15840171/120885101     matrix_multiply_vector [11]
+                0.11    0.00 44211933/120885101     calculate_collision_sphere [4]
+                0.12    0.00 45476226/120885101     calculate_collision [3]
+[5]     15.6    0.31    0.00 120885101         vector_dot_product [5]
+-----------------------------------------------
+                0.00    0.00  240000/16721728     camera_make [20]
+                0.08    0.00 7684961/16721728     calculate_collision_sphere [4]
+                0.09    0.00 8796767/16721728     get_direction_to [8]
+[6]      8.5    0.17    0.00 16721728         vector_normalize [6]
+-----------------------------------------------
+                0.08    0.08 5280000/5280000     scene_render [1]
+[7]      8.3    0.08    0.08 5280000         camera_get_ray [7]
+                0.01    0.07 5280000/5280000     matrix_multiply_vector [11]
+                0.00    0.00 5280000/22744713     ray_make [17]
+-----------------------------------------------
+                0.01    0.10 8796767/8796767     render_color [2]
+[8]      5.4    0.01    0.10 8796767         get_direction_to [8]
+                0.09    0.00 8796767/16721728     vector_normalize [6]
+                0.01    0.00 8796767/104905594     vector_subtract [9]
+-----------------------------------------------
+                0.01    0.00 8796767/104905594     get_direction_to [8]
+                0.09    0.00 96108827/104905594     calculate_collision_sphere [4]
+[9]      5.0    0.10    0.00 104905594         vector_subtract [9]
+-----------------------------------------------
+                0.01    0.00 5594058/66158898     calculate_collision [3]
+                0.01    0.00 8667946/66158898     render_color [2]
+                0.07    0.00 51896894/66158898     calculate_collision_sphere [4]
+[10]     4.5    0.09    0.00 66158898         vector_scale [10]
+-----------------------------------------------
+                0.01    0.07 5280000/5280000     camera_get_ray [7]
+[11]     4.0    0.01    0.07 5280000         matrix_multiply_vector [11]
+                0.04    0.00 15840171/120885101     vector_dot_product [5]
+                0.03    0.00 15840171/16080176     vector_make [15]
+-----------------------------------------------
+                0.05    0.00 44211933/44211933     calculate_collision_sphere [4]
+[12]     2.5    0.05    0.00 44211933         vector_length [12]
+-----------------------------------------------
+                0.05    0.00 13947946/13947946     render_color [2]
+[13]     2.5    0.05    0.00 13947946         color_make [13]
+-----------------------------------------------
+                0.00    0.00 5594058/66158898     calculate_collision [3]
+                0.00    0.00 8667946/66158898     render_color [2]
+                0.02    0.00 51896894/66158898     calculate_collision_sphere [4]
+[14]     1.5    0.03    0.00 66158898         vector_add [14]
+-----------------------------------------------
+                0.00    0.00       4/16080176     scene_make [21]
+                0.00    0.00  240001/16080176     camera_make [20]
+                0.03    0.00 15840171/16080176     matrix_multiply_vector [11]
+[15]     1.5    0.03    0.00 16080176         vector_make [15]
+-----------------------------------------------
+                0.03    0.00 8667946/8667946     render_color [2]
+[16]     1.5    0.03    0.00 8667946         color_blend [16]
+-----------------------------------------------
+                0.00    0.00 5280000/22744713     camera_get_ray [7]
+                0.02    0.00 17464713/22744713     render_color [2]
+[17]     1.0    0.02    0.00 22744713         ray_make [17]
+-----------------------------------------------
+                0.01    0.00 15471284/15471284     render_color [2]
+[18]     0.5    0.01    0.00 15471284         color_add [18]
+-----------------------------------------------
+                0.01    0.00 8796767/8796767     render_color [2]
+[19]     0.5    0.01    0.00 8796767         color_multiply_color [19]
+-----------------------------------------------
+                                                 <spontaneous>
+[20]     0.1    0.00    0.00                 camera_make [20]
+                0.00    0.00  240000/16721728     vector_normalize [6]
+                0.00    0.00  240001/16080176     vector_make [15]
+-----------------------------------------------
+                                                 <spontaneous>
+[21]     0.0    0.00    0.00                 scene_make [21]
+                0.00    0.00       4/16080176     vector_make [15]
+                0.00    0.00       3/3           renderable_set_reflectivity [26]
+                0.00    0.00       2/4           color_make_from_rgb [25]
+                0.00    0.00       2/2           renderable_make_sphere [27]
+                0.00    0.00       2/2           renderable_set_solid_color [28]
+                0.00    0.00       1/1           light_source_make_point [30]
+                0.00    0.00       1/1           light_source_make_global [29]
+                0.00    0.00       1/1           renderable_make_plane [31]
+                0.00    0.00       1/1           renderable_set_checkered_scale [32]
+-----------------------------------------------
+                0.00    0.00 8796767/8796767     render_color [2]
+[22]     0.0    0.00    0.00 8796767         renderable_get_color_at [22]
+-----------------------------------------------
+                0.00    0.00 6674517/6674517     render_color [2]
+[23]     0.0    0.00    0.00 6674517         color_multiply_scalar [23]
+-----------------------------------------------
+                0.00    0.00 5280000/5280000     scene_render [1]
+[24]     0.0    0.00    0.00 5280000         color_to_color255 [24]
+-----------------------------------------------
+                0.00    0.00       2/4           renderable_set_solid_color [28]
+                0.00    0.00       2/4           scene_make [21]
+[25]     0.0    0.00    0.00       4         color_make_from_rgb [25]
+-----------------------------------------------
+                0.00    0.00       3/3           scene_make [21]
+[26]     0.0    0.00    0.00       3         renderable_set_reflectivity [26]
+-----------------------------------------------
+                0.00    0.00       2/2           scene_make [21]
+[27]     0.0    0.00    0.00       2         renderable_make_sphere [27]
+-----------------------------------------------
+                0.00    0.00       2/2           scene_make [21]
+[28]     0.0    0.00    0.00       2         renderable_set_solid_color [28]
+                0.00    0.00       2/4           color_make_from_rgb [25]
+-----------------------------------------------
+                0.00    0.00       1/1           scene_make [21]
+[29]     0.0    0.00    0.00       1         light_source_make_global [29]
+-----------------------------------------------
+                0.00    0.00       1/1           scene_make [21]
+[30]     0.0    0.00    0.00       1         light_source_make_point [30]
+-----------------------------------------------
+                0.00    0.00       1/1           scene_make [21]
+[31]     0.0    0.00    0.00       1         renderable_make_plane [31]
+-----------------------------------------------
+                0.00    0.00       1/1           scene_make [21]
+[32]     0.0    0.00    0.00       1         renderable_set_checkered_scale [32]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2021 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+   [3] calculate_collision     [8] get_direction_to       [26] renderable_set_reflectivity
+   [4] calculate_collision_sphere [29] light_source_make_global [28] renderable_set_solid_color
+   [7] camera_get_ray         [30] light_source_make_point [14] vector_add
+  [18] color_add              [11] matrix_multiply_vector  [5] vector_dot_product
+  [16] color_blend            [17] ray_make               [12] vector_length
+  [13] color_make              [2] render_color           [15] vector_make
+  [25] color_make_from_rgb    [22] renderable_get_color_at [6] vector_normalize
+  [19] color_multiply_color   [31] renderable_make_plane  [10] vector_scale
+  [23] color_multiply_scalar  [27] renderable_make_sphere  [9] vector_subtract
+  [24] color_to_color255      [32] renderable_set_checkered_scale
