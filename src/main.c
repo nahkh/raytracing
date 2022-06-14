@@ -26,25 +26,25 @@ void scene_render(Scene* scene, SDL_Renderer* renderer, Camera* camera) {
 }
 
 void move_forward(Camera *camera) {
-	Vector forward = matrix_multiply_vector(camera->orientation, VECTOR_Z);
+	Vector forward = matrix_multiply_vector(&(camera->orientation), &VECTOR_Z);
 
 	camera->position = vector_add(&(camera->position), &forward);
 }
 
 void move_backward(Camera *camera) {
-	Vector forward = matrix_multiply_vector(camera->orientation, VECTOR_Z);
-	
+	Vector forward = matrix_multiply_vector(&(camera->orientation), &VECTOR_Z);
+
 	camera->position = vector_subtract(&(camera->position), &forward);
 }
 
 void rotate_left(Camera *camera) {
 	Matrix left = matrix_rotate_y(-0.1);
-	camera->orientation = matrix_multiply_matrix(camera->orientation, left);
+	camera->orientation = matrix_multiply_matrix(&(camera->orientation), &left);
 }
 
 void rotate_right(Camera *camera) {
 	Matrix right = matrix_rotate_y(0.1);
-	camera->orientation = matrix_multiply_matrix(camera->orientation, right);
+	camera->orientation = matrix_multiply_matrix(&(camera->orientation), &right);
 }
 
 int main()

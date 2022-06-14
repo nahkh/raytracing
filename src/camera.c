@@ -30,7 +30,7 @@ void camera_destroy(Camera* camera) {
 }
 
 Ray camera_get_ray(Camera* camera, unsigned int x, unsigned int y) {
-    Vector direction = matrix_multiply_vector(camera->orientation, camera->rays[x + camera->width * y]);
+    Vector direction = matrix_multiply_vector(&(camera->orientation), &(camera->rays[x + camera->width * y]));
 
     return ray_make(&(camera->position), &direction);
 }

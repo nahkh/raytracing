@@ -127,7 +127,7 @@ START_TEST(matrix_multiply_matrix_correct) {
     Matrix matrix_b = (Matrix) {11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0};
     Matrix expected = (Matrix) {90, 96, 102, 216, 231, 246, 342, 366, 390};
 
-    assert_matrix_eq_tol(expected, matrix_multiply_matrix(matrix_a, matrix_b), DELTA);
+    assert_matrix_eq_tol(expected, matrix_multiply_matrix(&matrix_a, &matrix_b), DELTA);
 }
 END_TEST
 
@@ -136,7 +136,7 @@ START_TEST(matrix_multiply_vector_correct) {
     Vector vector = (Vector) {11.0, 14.0, 17.0};
     Vector expected = (Vector) {90, 216, 342};
 
-    assert_vector_eq_tol(expected, matrix_multiply_vector(matrix, vector), DELTA);
+    assert_vector_eq_tol(expected, matrix_multiply_vector(&matrix, &vector), DELTA);
 }
 END_TEST
 
@@ -145,7 +145,7 @@ START_TEST(matrix_multiply_scalar_correct) {
     double scalar = 3.0;
     Matrix expected = (Matrix) {3.0, 6.0, 9.0, 12.0, 15.0, 18.0, 21.0, 24.0, 27.0};
 
-    assert_matrix_eq_tol(expected, matrix_multiply_scalar(matrix, scalar), DELTA);
+    assert_matrix_eq_tol(expected, matrix_multiply_scalar(&matrix, scalar), DELTA);
 }
 END_TEST
 
@@ -154,10 +154,10 @@ END_TEST
 START_TEST(matrix_inverse_multiplication_results_in_identity) {
     Matrix matrix = (Matrix){7.0, 12.0, -1.0, 8.0, 9.5, 3.0, 2.0, 0, -1.0};
 
-    ck_assert_double_eq(120.5, matrix_determinant(matrix));
+    ck_assert_double_eq(120.5, matrix_determinant(&matrix));
     
-    Matrix inverse = matrix_inverse(matrix);
-    Matrix actual = matrix_multiply_matrix(matrix, inverse);
+    Matrix inverse = matrix_inverse(&matrix);
+    Matrix actual = matrix_multiply_matrix(&matrix, &inverse);
     Matrix expected = MATRIX_IDENTITY;
 
     assert_matrix_eq_tol(expected, actual, DELTA);
@@ -167,21 +167,21 @@ END_TEST
 START_TEST(matrix_rotation_x_maintains_x_vector) {
     Matrix matrix = matrix_rotate_x(1.0);
     
-    assert_vector_eq_tol(VECTOR_X, matrix_multiply_vector(matrix, VECTOR_X), DELTA);
+    assert_vector_eq_tol(VECTOR_X, matrix_multiply_vector(&matrix, &VECTOR_X), DELTA);
 }
 END_TEST
 
 START_TEST(matrix_rotation_y_maintains_y_vector) {
     Matrix matrix = matrix_rotate_y(1.0);
     
-    assert_vector_eq_tol(VECTOR_Y, matrix_multiply_vector(matrix, VECTOR_Y), DELTA);
+    assert_vector_eq_tol(VECTOR_Y, matrix_multiply_vector(&matrix, &VECTOR_Y), DELTA);
 }
 END_TEST
 
 START_TEST(matrix_rotation_z_maintains_z_vector) {
     Matrix matrix = matrix_rotate_z(1.0);
     
-    assert_vector_eq_tol(VECTOR_Z, matrix_multiply_vector(matrix, VECTOR_Z), DELTA);
+    assert_vector_eq_tol(VECTOR_Z, matrix_multiply_vector(&matrix, &VECTOR_Z), DELTA);
 }
 END_TEST
 
@@ -189,7 +189,7 @@ START_TEST(matrix_rotation_x_inverses_itself) {
     Matrix matrix = matrix_rotate_x(1.0);
     Matrix inverse = matrix_rotate_x(-1.0);
     
-    assert_matrix_eq_tol(MATRIX_IDENTITY, matrix_multiply_matrix(matrix, inverse), DELTA);
+    assert_matrix_eq_tol(MATRIX_IDENTITY, matrix_multiply_matrix(&matrix, &inverse), DELTA);
 }
 END_TEST
 
@@ -197,7 +197,7 @@ START_TEST(matrix_rotation_y_inverses_itself) {
     Matrix matrix = matrix_rotate_y(1.0);
     Matrix inverse = matrix_rotate_y(-1.0);
     
-    assert_matrix_eq_tol(MATRIX_IDENTITY, matrix_multiply_matrix(matrix, inverse), DELTA);
+    assert_matrix_eq_tol(MATRIX_IDENTITY, matrix_multiply_matrix(&matrix, &inverse), DELTA);
 }
 END_TEST
 
@@ -205,7 +205,7 @@ START_TEST(matrix_rotation_z_inverses_itself) {
     Matrix matrix = matrix_rotate_z(1.0);
     Matrix inverse = matrix_rotate_z(-1.0);
     
-    assert_matrix_eq_tol(MATRIX_IDENTITY, matrix_multiply_matrix(matrix, inverse), DELTA);
+    assert_matrix_eq_tol(MATRIX_IDENTITY, matrix_multiply_matrix(&matrix, &inverse), DELTA);
 }
 END_TEST
 
@@ -233,21 +233,21 @@ END_TEST
 START_TEST(matrix_rotation_x_y_becomes_z) {
     Matrix matrix = matrix_rotate_x(M_PI_2);
     
-    assert_vector_eq_tol(VECTOR_Z, matrix_multiply_vector(matrix, VECTOR_Y), DELTA);
+    assert_vector_eq_tol(VECTOR_Z, matrix_multiply_vector(&matrix, &VECTOR_Y), DELTA);
 }
 END_TEST
 
 START_TEST(matrix_rotation_y_x_becomes_minus_z) {
     Matrix matrix = matrix_rotate_y(M_PI_2);
     
-    assert_vector_eq_tol(vector_scale(&VECTOR_Z, -1), matrix_multiply_vector(matrix, VECTOR_X), DELTA);
+    assert_vector_eq_tol(vector_scale(&VECTOR_Z, -1), matrix_multiply_vector(&matrix, &VECTOR_X), DELTA);
 }
 END_TEST
 
 START_TEST(matrix_rotation_z_y_becomes_minus_x) {
     Matrix matrix = matrix_rotate_z(M_PI_2);
     
-    assert_vector_eq_tol(vector_scale(&VECTOR_X, -1), matrix_multiply_vector(matrix, VECTOR_Y), DELTA);
+    assert_vector_eq_tol(vector_scale(&VECTOR_X, -1), matrix_multiply_vector(&matrix, &VECTOR_Y), DELTA);
 }
 END_TEST
 
