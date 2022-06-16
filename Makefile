@@ -1,14 +1,15 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -O3
+CLIBS=-lm -lSDL2main -lSDL2 -lpthread
 
 main: create-build-dir
-	${CC} -o build/raytracing src/*.c ${CFLAGS} -lm -lSDL2main -lSDL2 -I.
+	${CC} -o build/raytracing src/*.c ${CFLAGS} ${CLIBS} -I.
 
 debug: create-build-dir
-	${CC} -g -o build/raytracing-debug src/*.c ${CFLAGS} -lm -lSDL2main -lSDL2 -I.
+	${CC} -g -o build/raytracing-debug src/*.c ${CFLAGS} ${CLIBS} -I.
 
 analyze: create-build-dir
-	${CC} -pg -o build/raytracing-analyze src/*.c ${CFLAGS} -lm -lSDL2main -lSDL2 -I.
+	${CC} -pg -o build/raytracing-analyze src/*.c ${CFLAGS} ${CLIBS} -I.
 	build/raytracing-analyze
 	gprof build/raytracing-analyze gmon.out > analysis.txt
 
