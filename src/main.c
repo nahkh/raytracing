@@ -12,44 +12,7 @@
 #define WIDTH 600
 #define HEIGHT 400
 
-#define THREAD_COUNT 40
-
-struct RenderingThreadInput {
-	unsigned int thread_count;
-	unsigned int thread_num;
-	Scene* scene;
-	Camera* camera;
-	Color255* pixels;
-};
-
-typedef struct RenderingThreadInput RenderingThreadInput;
-
-void* scene_thread_calculate_colors(void* params) {
-	unsigned int x, y;
-	RenderingThreadInput* input = (RenderingThreadInput*) params;
-
-	for (x = input->thread_num; x < input->camera->width; x+=input->thread_count) {
-		for (y = 0; y < input->camera->height; ++y) {
-			input->pixels[x + y * input->camera->width] = color_to_color255(render_color(input->scene, camera_get_ray(input->camera, x, y), 5));
-		}
-	}
-
-	return params;
-}
-
-void scene_calculate_colors(Scene* scene, Camera* camera, Color255* pixels) {
-	unsigned int i;
-	pthread_t threads[THREAD_COUNT];
-	RenderingThreadInput inputs[THREAD_COUNT];
-
-    for (i = 0; i < THREAD_COUNT; ++i) {
-		inputs[i] = (RenderingThreadInput) {THREAD_COUNT, i, scene, camera, pixels};
-        pthread_create(&threads[i], NULL, scene_thread_calculate_colors, (void*)&(inputs[i]));
-	}
-    for (i = 0; i < THREAD_COUNT; ++i)
-        pthread_join(threads[i], NULL);
-	
-}
+#define THREAD_COUNT 20
 
 void scene_render(SDL_Renderer* renderer, Camera* camera, Color255* pixels) {
 	unsigned int x, y;
@@ -93,6 +56,7 @@ int main()
 	Camera* camera = camera_make(WIDTH, HEIGHT, M_PI_4);
 	Scene scene = scene_make();
 	Color255* pixel_buffer = (Color255*) malloc(sizeof(Color255) * camera->height * camera->width);
+	RenderingThreadPool* rendering_thread_pool = start_rendering_threads(THREAD_COUNT, &scene, camera, pixel_buffer);
 
 	int isRunning = 1;
 	SDL_Event event;
@@ -129,12 +93,12 @@ int main()
 		}
 
 		SDL_RenderClear(renderer);
-		scene_calculate_colors(&scene, camera, pixel_buffer);
+		start_render(rendering_thread_pool);
 		scene_render(renderer, camera, pixel_buffer);
 
 		SDL_RenderPresent(renderer);
 	}
-
+	stop_rendering_threads(rendering_thread_pool);
 	camera_destroy(camera);
 
 	SDL_DestroyRenderer(renderer);

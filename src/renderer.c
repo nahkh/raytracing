@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "renderer.h"
 #include "collision.h"
 
@@ -76,4 +78,68 @@ Color render_color(Scene* scene, Ray ray, int reflections) {
     }
 }
 
+void* scene_thread_calculate_colors(void* params) {
+	unsigned int x, y;
+	RenderingThreadInput* input = (RenderingThreadInput*) params;
+    while(input->state != STOPPING) {
+        if (input->state == RENDERING) {
+            for (x = input->thread_num; x < input->camera->width; x+=input->thread_count) {
+                for (y = 0; y < input->camera->height; ++y) {
+                    input->pixels[x + y * input->camera->width] = color_to_color255(render_color(input->scene, camera_get_ray(input->camera, x, y), 5));
+                }
+            }
+            input->state = IDLE;    
+        }
+    }
 
+	return NULL;
+}
+
+RenderingThreadPool* start_rendering_threads(size_t thread_count, Scene* scene, Camera* camera, Color255* pixels) {
+    RenderingThreadPool* thread_pool;
+    volatile unsigned int i;
+
+    thread_pool = (RenderingThreadPool *) malloc(sizeof(RenderingThreadPool));
+    thread_pool->thread_count = thread_count;
+    thread_pool->threads = (RenderingThreadInput *) malloc(sizeof(RenderingThreadInput) * thread_count);
+
+    for (i = 0; i < thread_count; ++i) {
+        thread_pool->threads[i].camera = camera;
+        thread_pool->threads[i].scene = scene;
+        thread_pool->threads[i].state = IDLE;
+        thread_pool->threads[i].pixels = pixels;
+        thread_pool->threads[i].thread_count = thread_count;
+        thread_pool->threads[i].thread_num = i;
+        if (pthread_create(&(thread_pool->threads[i].thread_id), NULL, scene_thread_calculate_colors, (void*)&(thread_pool->threads[i]))) {
+            printf("Could not initialize thread");
+            exit(1);
+        }
+    }
+
+    return thread_pool;
+}
+
+void start_render(RenderingThreadPool* thread_pool) {
+    size_t i;
+
+    for (i = 0; i < thread_pool->thread_count; ++i) {
+        thread_pool->threads[i].state = RENDERING;
+    }
+
+    for (i = 0; i < thread_pool->thread_count; ++i) {
+        while(thread_pool->threads[i].state == RENDERING);
+    }
+}
+
+void stop_rendering_threads(RenderingThreadPool* thread_pool) {
+    size_t i;
+
+    for (i = 0; i < thread_pool->thread_count; ++i) {
+        thread_pool->threads[i].state = STOPPING;
+    }
+    for (i = 0; i < thread_pool->thread_count; ++i) {
+        pthread_join(thread_pool->threads[i].thread_id, NULL);
+    }
+    free(thread_pool->threads);
+    free(thread_pool);
+}
