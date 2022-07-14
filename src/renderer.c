@@ -53,7 +53,7 @@ Color render_color(Scene* scene, Ray ray, int reflections) {
   }
 
   if (best_collision.hit) {
-    Color color = renderable_get_color_at(best_hit, best_collision.pos);
+    Color color = renderable_get_color_at(&best_hit, best_collision.pos);
     Color light_color = color_make(0, 0, 0);
 
     for (i = 0; i < scene->light_source_count; ++i) {
@@ -76,12 +76,13 @@ Color render_color(Scene* scene, Ray ray, int reflections) {
       }
     }
     color = color_multiply_color(color, light_color);
-    if (best_hit.reflectivity > 0.0 && reflections > 0) {
+    if (renderable_is_reflective(&best_hit) && reflections > 0) {
       Ray reflected_ray = calculate_reflection(
           &(best_collision.pos), &(ray.dir), &(best_collision.normal));
       Color reflected_color =
           render_color(scene, reflected_ray, reflections - 1);
-      color = color_blend(color, reflected_color, best_hit.reflectivity);
+      color = color_blend(color, reflected_color,
+                          renderable_get_reflectivity(&best_hit));
     }
     return color;
   } else {
