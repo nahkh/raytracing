@@ -2,9 +2,9 @@
 #define _vector_h_
 
 struct Vector {
-    double x;
-    double y;
-    double z;
+  double x;
+  double y;
+  double z;
 };
 
 typedef struct Vector Vector;

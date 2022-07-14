@@ -1,58 +1,52 @@
 #ifndef _renderable_h_
 #define _renderable_h_
 
-#include "vector.h"
-#include "ray.h"
 #include "color.h"
+#include "ray.h"
+#include "vector.h"
 
-enum RenderableType {
-    RENDERABLE_PLANE,
-    RENDERABLE_SPHERE
-};
+enum RenderableType { RENDERABLE_PLANE, RENDERABLE_SPHERE };
 
 typedef enum RenderableType RenderableType;
 
 struct RenderablePlane {
-    Vector normal;
-    double distance_to_origin;
+  Vector normal;
+  double distance_to_origin;
 };
 
 typedef struct RenderablePlane RenderablePlane;
 
 struct RenderableSphere {
-    Vector position;
-    double radius;
+  Vector position;
+  double radius;
 };
 
 typedef struct RenderableSphere RenderableSphere;
 
-enum TextureType {
-    TEXTURE_SOLID,
-    TEXTURE_CHECKERED
-};
+enum TextureType { TEXTURE_SOLID, TEXTURE_CHECKERED };
 
 typedef enum TextureType TextureType;
 
 typedef Color SolidTexture;
 
 struct CheckeredTexture {
-    double scale;
+  double scale;
 };
 
 typedef struct CheckeredTexture CheckeredTexture;
 
 struct Renderable {
-    RenderableType type;
-    union {
-        RenderablePlane as_plane;
-        RenderableSphere as_sphere;
-    };
-    TextureType texture_type;
-    double reflectivity;
-    union {
-        SolidTexture as_solid_texture;
-        CheckeredTexture as_checkered_texture;
-    };
+  RenderableType type;
+  union {
+    RenderablePlane as_plane;
+    RenderableSphere as_sphere;
+  };
+  TextureType texture_type;
+  double reflectivity;
+  union {
+    SolidTexture as_solid_texture;
+    CheckeredTexture as_checkered_texture;
+  };
 };
 
 typedef struct Renderable Renderable;

@@ -1,19 +1,18 @@
 #ifndef _color_h_
 #define _color_h_
 
-
 struct Color {
-    double r;
-    double g;
-    double b;
+  double r;
+  double g;
+  double b;
 };
 
 typedef struct Color Color;
 
 struct Color255 {
-    int r;
-    int g;
-    int b;
+  int r;
+  int g;
+  int b;
 };
 
 typedef struct Color255 Color255;
