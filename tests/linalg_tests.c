@@ -45,8 +45,10 @@ START_TEST(vector_add_correct) {
   Vector vector_b = {-2.0, 5.0, 1.0};
 
   Vector expected = {2.0, 8.0, 1.0};
+  Vector actual;
 
-  assert_vector_eq_tol(expected, vector_add(&vector_a, &vector_b), DELTA);
+  vector_add(&vector_a, &vector_b, &actual);
+  assert_vector_eq_tol(expected, actual, DELTA);
 }
 END_TEST
 
@@ -54,12 +56,15 @@ START_TEST(vector_scale_correct) {
   Vector vector = {4.0, 3.0, 0.0};
 
   Vector expected = {8.0, 6.0, 0.0};
+  Vector actual;
 
-  assert_vector_eq_tol(expected, vector_scale(&vector, 2.0), DELTA);
+  vector_scale(&vector, 2.0, &actual);
+  assert_vector_eq_tol(expected, actual, DELTA);
 
   vector = (Vector){1.0, 1.0, 1.0};
   expected = (Vector){0.0, 0.0, 0.0};
-  assert_vector_eq_tol(expected, vector_scale(&vector, 0.0), DELTA);
+  vector_scale(&vector, 0.0, &actual);
+  assert_vector_eq_tol(expected, actual, DELTA);
 }
 END_TEST
 
@@ -76,7 +81,8 @@ END_TEST
 START_TEST(vector_cross_product_perpendicular) {
   Vector vector_a = {4.0, 3.0, 0.0};
   Vector vector_b = {1.0, 0.0, 1.0};
-  Vector cross = vector_cross_product(&vector_a, &vector_b);
+  Vector cross;
+  vector_cross_product(&vector_a, &vector_b, &cross);
 
   ck_assert_double_eq_tol(0, vector_dot_product(&cross, &vector_a), DELTA);
   ck_assert_double_eq_tol(0, vector_dot_product(&cross, &vector_b), DELTA);
@@ -85,15 +91,16 @@ END_TEST
 
 START_TEST(vector_normalize_length_one) {
   Vector vector = {4.0, 3.0, 0.0};
-  Vector normalized = vector_normalize(&vector);
+  vector_normalize(&vector);
 
-  ck_assert_double_eq_tol(1.0, vector_length(&normalized), DELTA);
+  ck_assert_double_eq_tol(1.0, vector_length(&vector), DELTA);
 }
 END_TEST
 
 START_TEST(vector_normalize_in_same_direction) {
   Vector vector = {4.0, 3.0, 0.0};
-  Vector normalized = vector_normalize(&vector);
+  Vector normalized = {4.0, 3.0, 0.0};
+  vector_normalize(&normalized);
 
   ck_assert_double_eq_tol(5.0, vector_dot_product(&vector, &normalized), DELTA);
 }
@@ -246,17 +253,21 @@ END_TEST
 
 START_TEST(matrix_rotation_y_x_becomes_minus_z) {
   Matrix matrix = matrix_rotate_y(M_PI_2);
+  Vector vector;
+  vector_scale(&VECTOR_Z, -1, &vector);
 
-  assert_vector_eq_tol(vector_scale(&VECTOR_Z, -1),
-                       matrix_multiply_vector(&matrix, &VECTOR_X), DELTA);
+  assert_vector_eq_tol(vector, matrix_multiply_vector(&matrix, &VECTOR_X),
+                       DELTA);
 }
 END_TEST
 
 START_TEST(matrix_rotation_z_y_becomes_minus_x) {
   Matrix matrix = matrix_rotate_z(M_PI_2);
+  Vector vector;
+  vector_scale(&VECTOR_X, -1, &vector);
 
-  assert_vector_eq_tol(vector_scale(&VECTOR_X, -1),
-                       matrix_multiply_vector(&matrix, &VECTOR_Y), DELTA);
+  assert_vector_eq_tol(vector, matrix_multiply_vector(&matrix, &VECTOR_Y),
+                       DELTA);
 }
 END_TEST
 

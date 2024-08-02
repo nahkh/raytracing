@@ -31,12 +31,12 @@ void scene_render(SDL_Renderer *renderer, Camera *camera, Color255 *pixels) {
 void move_forward(Camera *camera) {
   Vector forward = matrix_multiply_vector(&(camera->orientation), &VECTOR_Z);
 
-  camera->position = vector_add(&(camera->position), &forward);
+  vector_add_to(&(camera->position), &forward);
 }
 
 void move_backward(Camera *camera) {
   Vector forward = matrix_multiply_vector(&(camera->orientation), &VECTOR_Z);
-  camera->position = vector_subtract(&(camera->position), &forward);
+  vector_subtract_from(&(camera->position), &forward);
 }
 
 void rotate_left(Camera *camera) {

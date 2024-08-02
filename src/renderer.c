@@ -6,10 +6,11 @@
 #include "collision.h"
 
 Vector vector_reflect(Vector* direction, Vector* normal) {
-  Vector temp =
-      vector_scale(normal, vector_dot_product(direction, normal) * -2.0);
+  Vector temp;
+  vector_scale(normal, vector_dot_product(direction, normal) * -2.0, &temp);
 
-  return vector_add(direction, &temp);
+  vector_add_to(&temp, direction);
+  return temp;
 }
 
 Ray calculate_reflection(Vector* collision_point, Vector* original_dir,
@@ -146,8 +147,7 @@ void start_render(RenderingThreadPool* thread_pool) {
   }
 
   for (i = 0; i < thread_pool->thread_count; ++i) {
-    while (thread_pool->threads[i].state == RENDERING)
-      ;
+    while (thread_pool->threads[i].state == RENDERING);
   }
 }
 

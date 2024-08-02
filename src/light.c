@@ -5,9 +5,11 @@ LightSource light_source_make_global(Color color) {
 }
 
 LightSource light_source_make_directional(Color color, Vector direction) {
-  Vector temp = vector_scale(&direction, -1);
-  return (LightSource){
-      LIGHT_SOURCE_DIRECTIONAL, 1, color, {{vector_normalize(&temp)}}};
+  Vector temp;
+
+  vector_scale(&direction, -1, &temp);
+  vector_normalize(&temp);
+  return (LightSource){LIGHT_SOURCE_DIRECTIONAL, 1, color, {{temp}}};
 }
 
 LightSource light_source_make_point(Color color, Vector point) {
@@ -21,8 +23,9 @@ Vector get_direction_to(LightSource light_source, Vector point) {
     case LIGHT_SOURCE_DIRECTIONAL:
       return light_source.as_directional.direction;
     case LIGHT_SOURCE_POINT:
-      temp = vector_subtract(&(light_source.as_point.position), &point);
-      return vector_normalize(&temp);
+      vector_subtract(&(light_source.as_point.position), &point, &temp);
+      vector_normalize(&temp);
+      return temp;
     default:
       return VECTOR_Y;
   }

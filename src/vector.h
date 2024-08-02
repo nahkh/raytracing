@@ -22,15 +22,19 @@ double vector_length(const Vector*);
 
 double vector_length2(const Vector*);
 
-Vector vector_add(const Vector*, const Vector*);
+void vector_add(const Vector*, const Vector*, Vector*);
 
-Vector vector_subtract(const Vector*, const Vector*);
+void vector_add_to(Vector*, const Vector*);
 
-Vector vector_scale(const Vector*, double);
+void vector_subtract(const Vector*, const Vector*, Vector*);
 
-Vector vector_cross_product(const Vector*, const Vector*);
+void vector_subtract_from(Vector*, const Vector*);
 
-Vector vector_normalize(const Vector*);
+void vector_scale(const Vector*, double, Vector*);
+
+void vector_cross_product(const Vector*, const Vector*, Vector*);
+
+void vector_normalize(Vector*);
 
 void vector_print(const Vector*);
 

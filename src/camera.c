@@ -5,7 +5,6 @@
 
 Camera *camera_make(unsigned int w, unsigned int h, double fov) {
   unsigned int x, y, depth;
-  Vector origin_to_screen;
   Camera *camera = (Camera *)malloc(sizeof(Camera));
 
   camera->width = w;
@@ -17,9 +16,9 @@ Camera *camera_make(unsigned int w, unsigned int h, double fov) {
   depth = 0.5 * (int)w / tan(fov);
   for (y = 0; y < h; ++y) {
     for (x = 0; x < w; ++x) {
-      origin_to_screen =
+      camera->rays[x + y * w] =
           vector_make((int)x - (int)w / 2, (int)h / 2 - (int)y, depth);
-      camera->rays[x + y * w] = vector_normalize(&origin_to_screen);
+      vector_normalize(&(camera->rays[x + y * w]));
     }
   }
 
